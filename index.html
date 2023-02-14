@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--Meta-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--style-->
+    <link rel="stylesheet" href="src/styles/style.css">
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <!--Title-->
+    <title>Api Users - MarketMix</title>
+</head>
+<body>
+    <!--Content-->
+    <main id="app" class="bg-dark" style="height:100vh">
+        <!--Login-->
+        <section class="h-100 d-flex flex-column justify-content-center align-items-center" v-if="render.login" v-cloak>
+            <!--Title-->
+            <h1 class="text-light my-3" >Iniciar Sesión</h1>
+            <!--Form-->
+            <form class="container d-flex flex-column justify-content-center align-items-center" @submit.prevent="login">
+                <!--Email-->
+                <div class="mb-3">
+                    <label for="username" class="form-label text-light">Nombre de usuario</label>
+                    <input type="text" class="form-control" id="username" v-model="username" placeholder="unUsuarioX">
+                </div>
+                <!--Password-->
+                <div class="mb-3">
+                    <label for="password" class="form-label text-light">Contraseña</label>
+                    <input type="password" class="form-control" id="password" v-model="password" placeholder="********">
+                </div>
+                <!--Button-->
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+        </section>
+        <!--Users-->
+        <section class="h-100 d-flex flex-column justify-content-center align-items-center" v-if="render.users" v-cloak>
+            <!--User info-->
+            <div class="container d-flex flex-column align-items-start w-100">
+                <div class="container d-flex flex-row align-items-center my-3">
+                    <img class="rounded-circle" :src="picture" :alt="username">
+                    <p class="text-light mx-3">{{name}}</p>
+                </div>
+                <div class="container d-flex flex-row align-items-center my-1">
+                    <button class="btn btn-danger" @click="logout">Cerrar Sesión</button>
+                </div>
+            </div>
+            <!--Title-->
+            <h1 class="text-light my-1" >Tabla de Usuarios</h1>
+            <!--Options-->
+            <div class="container m-1">
+                <h2 class="text-light">Filtrar</h2>
+                <div class="container">
+                    <select v-model="gender" class="mx-3">
+                        <option value="all" disabled selected>Género</option>
+                        <option value="male">Masculino</option>
+                        <option value="female">Femenino</option>
+                        <option value="all">Mixto</option>
+                    </select>
+                    <button class="btn btn-primary" @click="getUsers">Filtrar</button>
+                </div>
+            </div>
+            <!--Table-->
+            <div class="container d-flex flex-column justify-content-center align-items-center table-container">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-light">Foto</th>
+                            <th class="text-light">Nombre</th>
+                            <th class="text-light">Apellido</th>
+                            <th class="text-light">Género</th>
+                            <th class="text-light">Correo</th>
+                            <th class="text-light">País</th>
+                            <th class="text-light">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--Users-->
+                        <tr v-for="user in users">
+                            <td><img class="rounded" :src="user.picture.thumbnail" alt=""></td>
+                            <td class="text-light">{{user.name.first}}</td>
+                            <td class="text-light">{{user.name.last}}</td>
+                            <td class="text-light">{{user.gender}}</td>
+                            <td class="text-light">{{user.email}}</td>
+                            <td class="text-light"><img :src="user.flag" width="25" height="25" :alt="user.location.country"/> </td>
+                            <td><span class="btn btn-danger" @click="deleteUser(user)">Borrar</span></td>
+                        </tr>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+<!--Swal-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!--Bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<!--Vue-->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<!--Main file-->
+<script src="src/main.js"></script>
+</html>
